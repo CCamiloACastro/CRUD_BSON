@@ -33,6 +33,8 @@ bson_bytes = bsonjs.loads('{"Hola": "Pepito bb", "x": 2}')
 print(bson_bytes)
 # insertar documentos
 result = db.prueba.insert_one(RawBSONDocument(bson_bytes))
+
+
 result.inserted_id  # NOTE: inserted_id is None
 print(result.acknowledged)
 # buscar documentos en mongo

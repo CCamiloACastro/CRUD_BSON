@@ -208,7 +208,9 @@ class BasicBsonCRUD:
             print("No hay registros con ese criterio")
         else:
             # imprimir el documento encontrado
+            print('Datos en formato BSON')
             print(document)
+            print('Datos en formato JSON')
             print(document.items())
 
     def read_many(self, criterio: dict):
@@ -232,7 +234,9 @@ class BasicBsonCRUD:
         else:
             # recorrer el cursor e imprimir los documentos
             for document in documents:
+                print('Datos en formato BSON')
                 print(document)
+                print('Datos en formato JSON')
                 print(document.items())
 
     def update_one_doc(self, criterio: dict, replace_by: dict):
