@@ -1,7 +1,8 @@
 import json
 from bson import BSON
 import bsonjs
-from crud_functions import BasicCRUD, BasicBsonCRUD
+from crud_functions import BasicCRUD
+from crud_bson_functions import BasicBsonCRUD
 
 documents = [
     {"nombre": "David", "edad": 20},

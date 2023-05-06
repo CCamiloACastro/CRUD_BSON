@@ -1,7 +1,8 @@
 import pymongo
+from bson.raw_bson import RawBSONDocument
 
-# Clase CRUD para manejo de archivos JSON
-class BasicCRUD:
+# Clase CRUD para manejo de archivos BSON
+class BasicBsonCRUD:
     def __init__(self, name_database: str, name_collection: str):
         """
         Constructor de la clase
@@ -10,52 +11,52 @@ class BasicCRUD:
             name_collection: Nombre de la colección de datos que se creara en Mongodb
         """
         try:
-            client = pymongo.MongoClient("mongodb://localhost:27017/")
+            client = pymongo.MongoClient("mongodb://localhost:27017/", document_class=RawBSONDocument)
             db = client[name_database]
             self.collection = db[name_collection]
         except Exception as e:
             print(e)
 
-    def crear_uno(self, single_json):
+    def create_one(self, single_bson):
         """
         Inserta solamente un documento
         Args:
-            single_json: Colección de UN solo documento
+            single_bson: Colección de UN solo documento
 
         Returns:
-            el "id" que se creó del documento
 
         """
         print('create_one')
         try:
-            resultado = self.collection.insert_one(single_json)
-            return print(resultado.inserted_id)
+            self.collection.insert_one(RawBSONDocument(single_bson))
         except Exception as e:
             print(e)
 
-    def crear_muchos(self, multiple_json):
+    def create_many(self, multiple_bson):
         """
-        Inserta multiples documentos
+        Inserta multiples documentos ESTA FUNCIÓN NO INSERTA MULTIPLES DOCUMENTOS BSON
         Args:
-            multiple_json: Colección con multiples documentos
+            multiple_bson: Colección con multiples documentos
 
         Returns:
-            los "id" ide los documentos insertados
+            los id de los documentos insertados
         """
         print('create_many')
         try:
-            resultado = self.collection.insert_many(multiple_json)
+            resultado = self.collection.insert_many(multiple_bson)
             return print(resultado.inserted_ids)
         except Exception as e:
             print(e)
 
-    def leer_uno(self, criterio: dict):
+    def read_one(self, criterio: dict):
         """
-        Leer el primer documento que cumpla los criterios especificados
+        Leer un documento que cumpla los criterios especificados
         Args:
             criterio (dict): filtro del documento que se busca leer
 
         Returns:
+            Imprime el documento en formato bson.raw_bson.RawBSONDocument
+            Imprime el documento en formato dict_items
 
         """
         print('read_one')
@@ -65,16 +66,20 @@ class BasicCRUD:
             print("No hay registros con ese criterio")
         else:
             # imprimir el documento encontrado
+            print('Datos en formato BSON')
             print(document)
+            print('Datos en formato JSON')
+            print(document.items())
 
-    def leer_muchos(self, criterio: dict):
+    def read_many(self, criterio: dict):
         """
         Busca todos los documentos que cumplan los criterios especificados
         Args:
             criterio (dict): filtro de los documentos que se busca leer
 
         Returns:
-
+            Imprime el documento en formato bson.raw_bson.RawBSONDocument
+            Imprime el documento en formato dict_items
         """
         print('read_many')
         documents = list(self.collection.find(criterio))
@@ -87,9 +92,12 @@ class BasicCRUD:
         else:
             # recorrer el cursor e imprimir los documentos
             for document in documents:
+                print('Datos en formato BSON')
                 print(document)
+                print('Datos en formato JSON')
+                print(document.items())
 
-    def actualizar_uno(self, criterio: dict, replace_by: dict):
+    def update_one_doc(self, criterio: dict, replace_by: dict):
         """
         Actualiza el primer documento que cumpla el criterio especificado
         Args:
@@ -101,7 +109,7 @@ class BasicCRUD:
         print('update_one_doc')
         self.collection.update_one(criterio, replace_by)
 
-    def actualizar_muchos(self, criterio: dict, replace_by: dict):
+    def update_many_doc(self, criterio: dict, replace_by: dict):
         """
         Actualiza todos los documento que cumpla el criterio especificado
         Args:
@@ -114,7 +122,7 @@ class BasicCRUD:
         print('update_many_doc')
         self.collection.update_many(criterio, replace_by)
 
-    def borrar_uno(self, criterio):
+    def delete_one_doc(self, criterio):
         """
         Borra el primer documento que cumpla con el criterio especificado
         Args:
@@ -126,7 +134,7 @@ class BasicCRUD:
         print('delete_one_doc')
         self.collection.delete_one(criterio)
 
-    def borrar_muchos(self, criterio: dict):
+    def delete_many_doc(self, criterio: dict):
         """
         Borra todos los documentos que cumpla el criterio especificado
         Args:
