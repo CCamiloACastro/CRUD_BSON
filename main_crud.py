@@ -6,6 +6,7 @@ documents = [
     {"nombre": "Juan", "edad": 24},
     {"nombre": "Leidy", "edad": 25},
     {"nombre": "Luis", "edad": 31},
+    {"nombre": "Pedro", "edad": 40},
     {"nombre": "Pedro", "edad": 40}
 ]
 
