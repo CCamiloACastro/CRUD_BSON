@@ -17,7 +17,7 @@ class BasicBsonCRUD:
         except Exception as e:
             print(e)
 
-    def create_one(self, single_bson):
+    def crear_uno(self, single_bson):
         """
         Inserta solamente un documento
         Args:
@@ -32,7 +32,7 @@ class BasicBsonCRUD:
         except Exception as e:
             print(e)
 
-    def create_many(self, multiple_bson):
+    def crear_muchos(self, multiple_bson):
         """
         Inserta multiples documentos ESTA FUNCIÓN NO INSERTA MULTIPLES DOCUMENTOS BSON
         Args:
@@ -43,12 +43,12 @@ class BasicBsonCRUD:
         """
         print('create_many')
         try:
-            resultado = self.collection.insert_many(multiple_bson)
+            resultado = self.collection.insert_many(RawBSONDocument(multiple_bson))
             return print(resultado.inserted_ids)
         except Exception as e:
             print(e)
 
-    def read_one(self, criterio: dict):
+    def leer_uno(self, criterio: dict):
         """
         Leer un documento que cumpla los criterios especificados
         Args:
@@ -71,7 +71,7 @@ class BasicBsonCRUD:
             print('Datos en formato JSON')
             print(document.items())
 
-    def read_many(self, criterio: dict):
+    def leer_muchos(self, criterio: dict):
         """
         Busca todos los documentos que cumplan los criterios especificados
         Args:
@@ -97,7 +97,7 @@ class BasicBsonCRUD:
                 print('Datos en formato JSON')
                 print(document.items())
 
-    def update_one_doc(self, criterio: dict, replace_by: dict):
+    def actualizar_uno(self, criterio: dict, replace_by: dict):
         """
         Actualiza el primer documento que cumpla el criterio especificado
         Args:
@@ -109,7 +109,7 @@ class BasicBsonCRUD:
         print('update_one_doc')
         self.collection.update_one(criterio, replace_by)
 
-    def update_many_doc(self, criterio: dict, replace_by: dict):
+    def actualizar_muchos(self, criterio: dict, replace_by: dict):
         """
         Actualiza todos los documento que cumpla el criterio especificado
         Args:
@@ -122,7 +122,7 @@ class BasicBsonCRUD:
         print('update_many_doc')
         self.collection.update_many(criterio, replace_by)
 
-    def delete_one_doc(self, criterio):
+    def borrar_uno(self, criterio):
         """
         Borra el primer documento que cumpla con el criterio especificado
         Args:
@@ -134,7 +134,7 @@ class BasicBsonCRUD:
         print('delete_one_doc')
         self.collection.delete_one(criterio)
 
-    def delete_many_doc(self, criterio: dict):
+    def borrar_muchos(self, criterio: dict):
         """
         Borra todos los documentos que cumpla el criterio especificado
         Args:
